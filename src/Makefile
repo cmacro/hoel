@@ -60,7 +60,7 @@ OBJECTS=hoel-sqlite.o hoel-mariadb.o hoel-pgsql.o hoel-simple-json.o hoel.o
 OUTPUT=libhoel.so
 VERSION_MAJOR=1
 VERSION_MINOR=4
-VERSION_PATCH=16
+VERSION_PATCH=18
 
 all: release
 
@@ -122,7 +122,7 @@ clean:
 
 install: all $(PKGCONFIG_FILE)
 	cp $(OUTPUT).$(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH) $(DESTDIR)/lib
-	mkdir -p $(DESTDIR)/lib/pkgconfig/
+	mkdir -p $(DESTDIR)/lib/pkgconfig/ $(DESTDIR)/include
 	install -m644 $(PKGCONFIG_FILE) $(DESTDIR)/lib/pkgconfig/
 	install -m644 $(HOEL_INCLUDE)/hoel.h $(DESTDIR)/include
 	install -m644 $(CONFIG_FILE) $(DESTDIR)/include
@@ -130,6 +130,7 @@ install: all $(PKGCONFIG_FILE)
 
 static-install: static
 	cp libhoel.a $(DESTDIR)/lib
+	mkdir -p $(DESTDIR)/lib/pkgconfig/ $(DESTDIR)/include
 	install -m644 $(PKGCONFIG_FILE) $(DESTDIR)/lib/pkgconfig
 	install -m644 $(HOEL_INCLUDE)/hoel.h $(DESTDIR)/include
 	install -m644 $(CONFIG_FILE) $(DESTDIR)/include

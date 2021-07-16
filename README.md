@@ -1,11 +1,10 @@
 # Hoel
 
-[![Build Status](https://travis-ci.com/babelouest/hoel.svg?branch=master)](https://travis-ci.com/babelouest/hoel)
 ![.github/workflows/ccpp.yml](https://github.com/babelouest/hoel/workflows/.github/workflows/ccpp.yml/badge.svg)
 
 Database abstraction library written in C.
 
-Simple and easy to use database access library. Works with SQLite 3, MariaDB/Mysql and PostgreSQL databases. Uses a JSON-based language with `jansson` to execute simple queries based on one table.
+Simple and easy to use database access library. Works with SQLite 3, MariaDB and PostgreSQL databases. Uses a JSON-based language with `jansson` to execute simple queries based on one table.
 
 # Online documentation
 
@@ -17,7 +16,7 @@ See the [online documentation](https://babelouest.github.io/hoel/) for a doxygen
 
 ### Jansson
 
-Install [Jansson](http://www.digip.org/jansson/) library for JSON manipulation, minimum version 2.4. On a debian-based platform, run the following command:
+Install [Jansson](http://www.digip.org/jansson/) library for JSON manipulation, minimum version 2.4. On a Debian-based platform, run the following command:
 
 ```shell
 $ sudo apt-get install libjansson-dev
@@ -27,7 +26,7 @@ $ sudo apt-get install libjansson-dev
 
 Install Hoel database dependencies based on your requirements:
 - SQLite3: Install the package `libsqlite3-dev`
-- MariaDB/Mysql: Install the package `libmysqlclient-dev` or `libmariadbclient-dev`
+- MariaDB: Install the package `libmariadb-dev`
 - PostgreSQL: Install the package `libpq-dev`
 
 ### Distribution packages
@@ -48,7 +47,7 @@ You can install Hoel with a pre-compiled package available in the [release pages
 For example, to install Hoel with the `hoel-dev-full_2.3.0_Debian_stretch_x86_64.tar.gz` package downloaded on the `releases` page, you must execute the following commands:
 
 ```shell
-$ sudo apt install -y libjansson-dev libmariadbclient-dev libsqlite3-dev libpq-dev libsystemd-dev
+$ sudo apt install -y libjansson-dev libmariadb-dev libsqlite3-dev libpq-dev libsystemd-dev
 $ wget https://github.com/babelouest/hoel/releases/download/v1.4.0/hoel-dev-full_1.4.0_Debian_stretch_x86_64.tar.gz
 $ tar xf hoel-dev-full_1.4.0_Debian_stretch_x86_64.tar.gz
 $ sudo dpkg -i liborcania-dev_1.2.0_Debian_stretch_x86_64.deb
@@ -64,7 +63,7 @@ If there's no package available for your distribution, you can recompile it manu
 
 [CMake](https://cmake.org/download/) minimum 3.5 is required.
 
-Run the cmake script in a subdirectory, example:
+Run the CMake script in a sub-directory, example:
 
 ```shell
 $ git clone https://github.com/babelouest/hoel.git
@@ -75,10 +74,10 @@ $ cmake ..
 $ make && sudo make install
 ```
 
-The available options for cmake are:
-- `-DWITH_SQLITE3=[on|off]` (default `on`): Enable/disabe SQLite3 database backend
-- `-DWITH_MARIADB=[on|off]` (default `on`): Enable/disabe MariaDB/Mysql database backend
-- `-DWITH_PGSQL=[on|off]` (default `on`): Enable/disabe PostgreSQL database backend
+The available options for CMake are:
+- `-DWITH_SQLITE3=[on|off]` (default `on`): Enable/disable SQLite3 database backend
+- `-DWITH_MARIADB=[on|off]` (default `on`): Enable/disable MariaDB database backend
+- `-DWITH_PGSQL=[on|off]` (default `on`): Enable/disable PostgreSQL database backend
 - `-DWITH_JOURNALD=[on|off]` (default `on`): Build with journald (SystemD) support for logging
 - `-DBUILD_STATIC=[on|off]` (default `off`): Build the static archive in addition to the shared library
 - `-DBUILD_HOEL_TESTING=[on|off]` (default `off`): Build unit tests
@@ -110,7 +109,7 @@ $ sudo make install
 
 ### Hoel
 
-Download hoel from github repository.
+Download Hoel from GitHub repository.
 
 ```shell
 $ git clone https://github.com/babelouest/hoel.git
@@ -131,7 +130,7 @@ $ make DISABLE_SQLITE=1
 $ sudo make install
 ```
 
-#### MariaDB/Mysql
+#### MariaDB
 
 Add DISABLE_MARIADB=1 to the `make` command:
 
@@ -169,13 +168,13 @@ By default, the shared library and the header file will be installed in the `/us
 
 ## Header files and compilation
 
-To use hoel in your code, include the file `hoel.h`.
+To use Hoel in your code, include the file `hoel.h`.
 
 ```c
 #include <hoel.h>
 ```
 
-Use the flag `-lhoel` to include hoel library in the linking process.
+Use the flag `-lhoel` to include Hoel library in the linking process.
 
 ### Return values
 
@@ -229,7 +228,7 @@ struct _h_connection * h_connect_mariadb(const char * host, const char * user, c
 struct _h_connection * h_connect_pgsql(char * conninfo);
 ```
 
-All these functions return a struct _h_connection * on success. This pointer will be needed on every call to hoel functions.
+All these functions return a struct _h_connection * on success. This pointer will be needed on every call to Hoel functions.
 
 When you no longer need your connection, close it using the function `h_close_db`. This will close the connection to the database and free the memory allocated by the connection.
 
@@ -260,9 +259,9 @@ The meaning of existence of the function `h_escape_string_with_quotes` is becaus
 
 TL;DR:
 - Use `h_escape_string_with_quotes` only if you use a PostgreSQL database.
-- You can use both `h_escape_string_with_quotes` and `h_escape_string` if you use only SQlite3 and/or MariaDB/MySQL databases.
+- You can use both `h_escape_string_with_quotes` and `h_escape_string` if you use only SQLite3 and/or MariaDB databases.
 
-If the unsafe string contains backslashes `"\"`, the escaped string will have the pattern `E'<safe>'`, otherwise it will have the pattern `'<safe>'`. Since the function `h_escape_string` must return the safe string only, withotu surroundings quotes `'`, the format `E'<safe>'`  is incompatible with Hoel API.
+If the unsafe string contains backslashes `"\"`, the escaped string will have the pattern `E'<safe>'`, otherwise it will have the pattern `'<safe>'`. Since the function `h_escape_string` must return the safe string only, without surroundings quotes `'`, the format `E'<safe>'`  is incompatible with Hoel API.
 
 Therefore, using `h_escape_string` with PostgreSQL could lead to undefined behaviour and more importantly exploitable bugs.
 
@@ -516,7 +515,7 @@ In the second case, `col_name: {operator: "operator_value", value: value}`, depe
 
 All clauses are separated by an `AND` operator.
 
-As en axample, here is a JSON object and its generated where clause:
+As en example, here is a JSON object and its generated where clause:
 
 JSON object:
 ```javascript
