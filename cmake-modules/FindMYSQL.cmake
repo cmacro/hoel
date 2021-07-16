@@ -42,7 +42,8 @@ else()
 		NAMES "mysql.h"
 		PATHS "/usr/include/mysql"
 			  "/usr/local/include/mysql"
-			  "/usr/mysql/include/mysql" )
+			  "/usr/mysql/include/mysql"
+			  "/usr/include/mariadb" )
 	
 	find_library( MYSQL_LIBRARY
 		NAMES "mysqlclient" "mysqlclient_r" "mariadbclient" "mariadbclient_r"

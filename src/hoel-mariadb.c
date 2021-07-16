@@ -84,6 +84,11 @@ struct _h_connection * h_connect_mariadb(const char * host, const char * user, c
       o_free(conn);
       return NULL;
     }
+   
+    // UTF-8
+    mysql_options(((struct _h_mariadb *)conn->connection)->db_handle, MYSQL_SET_CHARSET_NAME, "utf8"); 
+    mysql_options(((struct _h_mariadb *)conn->connection)->db_handle, MYSQL_INIT_COMMAND, "SET NAMES utf8"); 
+
     if (mysql_real_connect(((struct _h_mariadb *)conn->connection)->db_handle,
                            host, user, passwd, db, port, unix_socket, CLIENT_COMPRESS) == NULL) {
       y_log_message(Y_LOG_LEVEL_ERROR, "Error connecting to mariadb database %s", db);
